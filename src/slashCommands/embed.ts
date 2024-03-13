@@ -62,9 +62,21 @@ const command: SlashCommand = {
         { name: "DarkNavy", value: "DarkNavy" }
       ];
       let filtered: { name: string, value: string }[] = []
+      // for (let i = 0; i < choices.length; i++) {
+      //   const choice = choices[i];
+      //   if (choice.name.includes(focusedValue)) filtered.push(choice);
+      // }
       for (let i = 0; i < choices.length; i++) {
         const choice = choices[i];
-        if (choice.name.includes(focusedValue)) filtered.push(choice);
+        if (
+          choice.name.toLowerCase().includes(focusedValue.toLowerCase()) ||
+          choice.value.toLowerCase() === focusedValue.toLowerCase()
+        ) {
+          filtered.push(choice);
+        }
+        if (/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{8})$/.test(focusedValue)) {
+          filtered.push({ name: "Custom Color", value: focusedValue });
+        }
       }
       await interaction.respond(
         filtered
@@ -86,10 +98,10 @@ const command: SlashCommand = {
         .setColor(options.color.toString() as ColorResolvable)
         .setTitle(options.title.toString())
         .setDescription(options.description.toString())
-        .setAuthor({ name: interaction.client.user?.username || 'Default Name', iconURL: interaction.client.user?.avatarURL() || undefined })
+        .setAuthor({ name: interaction.client.user?.username || 'Default Name', iconURL: undefined })
         .setThumbnail(interaction.client.user?.avatarURL() || null)
         .setTimestamp()
-        .setFooter({ text: "Test embed message", iconURL: interaction.client.user?.avatarURL() || undefined });
+        .setFooter({ text: "Embed by chwy", iconURL: undefined });
       let selectedTextChannel = interaction.channel?.client.channels.cache.get(options.channel.toString()) as TextChannel
       selectedTextChannel.send({ embeds: [embed] });
       return interaction.editReply({ content: "Embed message successfully sent." })

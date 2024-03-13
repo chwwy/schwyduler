@@ -11,7 +11,7 @@ const command : SlashCommand = {
         interaction.reply({
             embeds: [
                 new EmbedBuilder()
-                .setAuthor({name: "MRC License"})
+                .setAuthor({name: "Schwyduler :3"})
                 .setDescription(`🏓 Pong! \n 📡 Ping: ${interaction.client.ws.ping}`)
                 .setColor(getThemeColor("text"))
             ]
